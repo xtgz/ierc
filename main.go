@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"math/big"
 	"math/rand"
+	"os"
 	"runtime"
+	"runtime/pprof"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -31,11 +33,15 @@ var (
 	globalNonce = time.Now().UnixNano()
 	zeroAddress = common.HexToAddress("0x0000000000000000000000000000000000000000")
 	chainID     = big.NewInt(0)
-	stopChan    = make(chan struct{})
 	userNonce   = -1
 )
 
 func main() {
+	f, _ := os.Create("cpu.prof")
+	defer f.Close()
+	pprof.StartCPUProfile(f)
+	defer pprof.StopCPUProfile()
+
 	dataTemp = fmt.Sprintf(`data:application/json,{"p":"ierc-20","op":"mint","tick":"%s","amt":"%d","nonce":"%%d"}`, config.Tick, config.Amt)
 	var err error
 	ethClient, err = ethclient.Dial(config.Rpc)
