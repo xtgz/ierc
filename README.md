@@ -15,29 +15,38 @@ https://holesky.etherscan.io/address/0xd19162560690227c8f71a21b76129e1eb05575a9
 
 ### 使用方式
 
-1. 在[这里](https://github.com/minchenzz/ierc-miner/releases)下载对应操作系统的版本
+1. 在[这里](https://github.com/minchenzz/ierc-miner/releases)下载对应操作系统的版本,解压缩程序
 
 2. 在miner程序同目录下创建config.txt文件,根据以下示例修改成你自己的配置
 
-3. 在powershell,cmd或其他命令行中输入 ./ierc_miner_windows.exe 运行 (直接双击不能运行!!!)
+3. 双击ierc_miner_windows.exe运行
 
 ```toml
 # 你的私钥  要带0x前缀
+# 你的私钥 带0x前缀
+# 你要改这个
 private_key = "0x440d58ea9c07ab873295a71f24d41f58776b3732000643178dd351c991b53e48"
 # rpc  主网: https://1rpc.io/eth  holesky测试网: https://1rpc.io/holesky
+# 你可以不改这个
 rpc = "https://1rpc.io/eth"
 # token
+# 你要改这个
 tick = "ierc-m5"
 # 数量
+# 你要改这个
 amt = 1000
 # 难度
+# 你要改这个
 prefix = "0x00000"
 # mint数量
+# 你要改这个
 count = 10
 # gas优先费用
-gas_tip = 5
+# 你可以不改这个
+gas_tip = 3
 # 最大gas费用
-gas_max = 100
+# 你可以不改这个 这个值必须要比ethgas高
+gas_max = 50
 ```
 
 注意: 

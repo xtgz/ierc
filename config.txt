@@ -1,16 +1,24 @@
-# 你的私钥  要带0x前缀
+# 你的私钥 带0x前缀
+# 你要改这个
 private_key = "0x440d58ea9c07ab873295a71f24d41f58776b3732000643178dd351c991b53e48"
 # rpc  主网: https://1rpc.io/eth  holesky测试网: https://1rpc.io/holesky
+# 你可以不改这个
 rpc = "https://1rpc.io/eth"
 # token
+# 你要改这个
 tick = "ierc-m5"
 # 数量
+# 你要改这个
 amt = 1000
 # 难度
+# 你要改这个
 prefix = "0x00000"
 # mint数量
+# 你要改这个
 count = 10
 # gas优先费用
+# 你可以不改这个
 gas_tip = 3
 # 最大gas费用
+# 你可以不改这个 这个值必须要比ethgas高
 gas_max = 50
