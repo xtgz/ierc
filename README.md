@@ -25,7 +25,7 @@ https://holesky.etherscan.io/address/0xd19162560690227c8f71a21b76129e1eb05575a9
 # 你的私钥  要带0x前缀
 private_key = "0x440d58ea9c07ab873295a71f24d41f58776b3732000643178dd351c991b53e48"
 # rpc  主网: https://1rpc.io/eth  holesky测试网: https://1rpc.io/holesky
-rpc = "https://1rpc.io/holesky"
+rpc = "https://1rpc.io/eth"
 # token
 tick = "ierc-m5"
 # 数量
