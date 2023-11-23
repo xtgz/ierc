@@ -11,6 +11,6 @@ prefix = "0x00000"
 # mint数量
 count = 10
 # gas优先费用
-gas_tip = 5
+gas_tip = 3
 # 最大gas费用
-gas_max = 100
+gas_max = 50
