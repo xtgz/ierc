@@ -22,7 +22,6 @@ https://holesky.etherscan.io/address/0xd19162560690227c8f71a21b76129e1eb05575a9
 3. 双击ierc_miner_windows.exe运行
 
 ```toml
-# 你的私钥  要带0x前缀
 # 你的私钥 带0x前缀
 # 你要改这个
 private_key = "0x440d58ea9c07ab873295a71f24d41f58776b3732000643178dd351c991b53e48"
