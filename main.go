@@ -42,8 +42,8 @@ func main() {
 	log.Infoln(" ██ ██      ██   ██ ██          ██  ██  ██ ██ ██  ██ ██ ██      ██   ██")
 	log.Infoln(" ██ ███████ ██   ██  ██████     ██      ██ ██ ██   ████ ███████ ██   ██")
 	log.Infoln()
-	log.Infoln(`作者推特 [𝕏] @chenmin22998595  https://twitter.com/chenmin22998595`)
-	log.Infoln(`Author [𝕏] @chenmin22998595  https://twitter.com/chenmin22998595`)
+	log.Infoln(`作者 @chenmin22998595  https://twitter.com/chenmin22998595`)
+	log.Infoln(`Author @chenmin22998595  https://twitter.com/chenmin22998595`)
 	log.Infoln()
 	dataTemp = fmt.Sprintf(`data:application/json,{"p":"ierc-20","op":"mint","tick":"%s","amt":"%d","nonce":"%%d"}`, config.Tick, config.Amt)
 	var err error
