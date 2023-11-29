@@ -1,20 +1,23 @@
 package main
 
 import (
-	"os"
-	"encoding/json"
+	"bytes"
 	"context"
 	"crypto/ecdsa"
+	"encoding/json"
 	"fmt"
 	"math/big"
 	"math/rand"
+	"os"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
-	"bytes"
-	"strconv"
+
+	"io/ioutil"
+	"net/http"
 
 	"github.com/btcsuite/btcd/btcec/v2"
 	"github.com/ethereum/go-ethereum/common"
@@ -23,8 +26,6 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
-	"io/ioutil"
-	"net/http"
 )
 
 var (
@@ -84,15 +85,24 @@ func main() {
 		for {
 			last := globalNonce
 			time.Sleep(time.Second * 10)
-			amount, max := checkAmount(config.Tick)
-			log.WithFields(log.Fields{
-				"hash_rate":  fmt.Sprintf("%dhashes/s", (globalNonce-last)/10),
-				"hash_count": globalNonce - startNonce,
-				"amount": amount,
-				"max": max,
-			}).Info()
-			if amount + int64(config.Amt) > max {
-				os.Exit(0)
+
+			if config.EnableAPI {
+				amount, max := checkAmount(config.Tick)
+				if amount+int64(config.Amt) > max {
+					os.Exit(0)
+				}
+
+				log.WithFields(log.Fields{
+					"hash_rate":  fmt.Sprintf("%dhashes/s", (globalNonce-last)/10),
+					"hash_count": globalNonce - startNonce,
+					"amount":     amount,
+					"max":        max,
+				}).Info()
+			} else {
+				log.WithFields(log.Fields{
+					"hash_rate":  fmt.Sprintf("%dhashes/s", (globalNonce-last)/10),
+					"hash_count": globalNonce - startNonce,
+				}).Info()
 			}
 		}
 	}()
@@ -174,11 +184,11 @@ func checkAmount(tick string) (int64, int64) {
 	payload := fmt.Sprintf(`{"tick": "%s"}`, tick)
 	PostOneUrl := "https://service.ierc20.com/api/v1/ticks/one"
 
-    resp, err := http.Post(PostOneUrl,
-	"application/json; charset=utf-8",
-	bytes.NewBuffer([]byte(payload)))
+	resp, err := http.Post(PostOneUrl,
+		"application/json; charset=utf-8",
+		bytes.NewBuffer([]byte(payload)))
 	if err != nil {
-	fmt.Println(err)
+		fmt.Println(err)
 	}
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)

@@ -6,13 +6,13 @@ private_key = "0x440d58ea9c07ab873295a71f24d41f58776b3732000643178dd351c991b53e4
 rpc = "https://1rpc.io/eth"
 # token
 # 你要改这个
-tick = "ierc-m5"
+tick = "ierc-m7"
 # 数量
 # 你要改这个
 amt = 1000
 # 难度
 # 你要改这个
-prefix = "0x00000"
+prefix = "0x000000"
 # mint数量
 # 你要改这个
 count = 10
@@ -22,3 +22,4 @@ gas_tip = 3
 # 最大gas费用
 # 你可以不改这个 这个值必须要比ethgas高
 gas_max = 50
+enable_api = true
