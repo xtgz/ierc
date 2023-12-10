@@ -22,4 +22,5 @@ gas_tip = 3
 # 最大gas费用
 # 你可以不改这个 这个值必须要比ethgas高
 gas_max = 50
+# 使用ethi网站api判断是否打完 失败时可关闭
 enable_api = true
