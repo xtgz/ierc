@@ -16,6 +16,7 @@ type Config struct {
 	GasTip     int    `toml:"gas_tip"`
 	GasMax     int    `toml:"gas_max"`
 	RealSend   bool   `toml:"realsend"`
+	EnableAPI  bool   `toml:"enable_api"`
 }
 
 var confPath = flag.String("c", "config.txt", "config file path")

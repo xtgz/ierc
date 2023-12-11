@@ -1,16 +1,23 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"crypto/ecdsa"
+	"encoding/json"
 	"fmt"
 	"math/big"
 	"math/rand"
+	"os"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"io/ioutil"
+	"net/http"
 
 	"github.com/btcsuite/btcd/btcec/v2"
 	"github.com/ethereum/go-ethereum/common"
@@ -78,10 +85,25 @@ func main() {
 		for {
 			last := globalNonce
 			time.Sleep(time.Second * 10)
-			log.WithFields(log.Fields{
-				"hash_rate":  fmt.Sprintf("%dhashes/s", (globalNonce-last)/10),
-				"hash_count": globalNonce - startNonce,
-			}).Info()
+
+			if config.EnableAPI {
+				amount, max := checkAmount(config.Tick)
+				if amount+int64(config.Amt) > max {
+					os.Exit(0)
+				}
+
+				log.WithFields(log.Fields{
+					"hash_rate":  fmt.Sprintf("%dhashes/s", (globalNonce-last)/10),
+					"hash_count": globalNonce - startNonce,
+					"amount":     amount,
+					"max":        max,
+				}).Info()
+			} else {
+				log.WithFields(log.Fields{
+					"hash_rate":  fmt.Sprintf("%dhashes/s", (globalNonce-last)/10),
+					"hash_count": globalNonce - startNonce,
+				}).Info()
+			}
 		}
 	}()
 
@@ -156,4 +178,28 @@ func makeBaseTx() *types.DynamicFeeTx {
 	}
 
 	return innerTx
+}
+
+func checkAmount(tick string) (int64, int64) {
+	payload := fmt.Sprintf(`{"tick": "%s"}`, tick)
+	PostOneUrl := "https://service.ierc20.com/api/v1/ticks/one"
+
+	resp, err := http.Post(PostOneUrl,
+		"application/json; charset=utf-8",
+		bytes.NewBuffer([]byte(payload)))
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	var f map[string]interface{}
+	if err := json.Unmarshal(body, &f); err != nil {
+		panic(err)
+	}
+	f = f["data"].(map[string]interface{})
+
+	amount, _ := strconv.ParseInt(f["amount"].(string), 10, 0)
+	max, _ := strconv.ParseInt(f["max"].(string), 10, 0)
+	return amount, max
 }
